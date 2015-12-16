@@ -21,11 +21,11 @@ dependencies {
     compile localGroovy()
 }
 
-version = "0.1"
+version = "0.1.1"
 group = "info.adavis"
 
 pluginBundle {
-    website = 'http://www.adavis.info'
+    website = 'https://github.com/adavis/quality-checks'
     vcsUrl = 'https://github.com/adavis/quality-checks'
     description = 'Simple Gradle Plugin for including Checkstyle, FindBugs, and PMD in your project.'
     tags = ['Checkstyle', 'FindBugs', 'PMD']
