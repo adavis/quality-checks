@@ -14,6 +14,10 @@ import org.gradle.api.plugins.quality.PmdPlugin
  */
 class QualityChecksPlugin implements Plugin<Project> {
 
+    public static final String PMD_FILE_NAME = 'pmd-ruleset.xml'
+    public static final String CHECKSTYLE_FILE_NAME = 'checkstyle.xml'
+    public static final String FINDBUGS_FILE_NAME = 'findbugs-exclude.xml'
+
     Project project
     File pmdConfigFile
     File checkStyleConfigFile
@@ -30,51 +34,21 @@ class QualityChecksPlugin implements Plugin<Project> {
 
         project.extensions.create('qualityChecks', QualityChecksExtension)
 
-        pmdConfigFile = createConfigFile('pmd-ruleset.xml')
-        checkStyleConfigFile = createConfigFile('checkstyle.xml')
-        findBugsExclusionFile = createConfigFile('findbugs-exclude.xml')
+        pmdConfigFile = createConfigFile(PMD_FILE_NAME)
+        checkStyleConfigFile = createConfigFile(CHECKSTYLE_FILE_NAME)
+        findBugsExclusionFile = createConfigFile(FINDBUGS_FILE_NAME)
 
-        def writePmdConfigFile = project.task('writePmdConfigFile') {
-            description 'Write PMD config file for PMD task'
+        def writePmdConfigFile = project.tasks.create('writePmdConfigFile', WriteConfigFileTask)
+        writePmdConfigFile.configFile = pmdConfigFile
+        writePmdConfigFile.fileName = PMD_FILE_NAME
 
-            onlyIf {
-                pmdConfigFile != null
-            }
+        def writeCheckstyleConfigFile = project.tasks.create('writeCheckStyleConfigFile', WriteConfigFileTask)
+        writeCheckstyleConfigFile.configFile = checkStyleConfigFile
+        writeCheckstyleConfigFile.fileName = CHECKSTYLE_FILE_NAME
 
-            doFirst {
-                if (pmdConfigFile != null) {
-                    copyConfigFile('pmd-ruleset.xml', pmdConfigFile)
-                }
-            }
-        }
-
-        def writeCheckstyleConfigFile = project.task('writeCheckStyleConfigFile') {
-            description 'Write Checkstyle config file for Checkstyle task'
-
-            onlyIf {
-                checkStyleConfigFile != null
-            }
-
-            doFirst {
-                if (checkStyleConfigFile != null) {
-                    copyConfigFile('checkstyle.xml', checkStyleConfigFile)
-                }
-            }
-        }
-
-        def writeFindBugsExclusionFile = project.task('writeFindBugsExclusionFile') {
-            description 'Write FindBugs exclusion file for FindBugs task'
-
-            onlyIf {
-                findBugsExclusionFile != null
-            }
-
-            doFirst {
-                if (findBugsExclusionFile != null) {
-                    copyConfigFile('findbugs-exclude.xml', findBugsExclusionFile)
-                }
-            }
-        }
+        def writeFindBugsExclusionFile = project.tasks.create('writeFindBugsExclusionFile', WriteConfigFileTask)
+        writeFindBugsExclusionFile.configFile = findBugsExclusionFile
+        writeFindBugsExclusionFile.fileName = FINDBUGS_FILE_NAME
 
         project.afterEvaluate {
 
@@ -157,11 +131,4 @@ class QualityChecksPlugin implements Plugin<Project> {
         return null
     }
 
-    def copyConfigFile(String fileName, File configFile) {
-        this.class.classLoader.getResourceAsStream(fileName).withStream { input ->
-            configFile.withOutputStream { out ->
-                out << input
-            }
-        }
-    }
 }

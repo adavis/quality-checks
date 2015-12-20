@@ -11,6 +11,7 @@ buildscript {
 
 apply plugin: 'com.gradle.plugin-publish'
 apply plugin: 'groovy'
+apply plugin: 'maven'
 
 repositories {
     jcenter()
@@ -19,14 +20,22 @@ repositories {
 dependencies {
     compile gradleApi()
     compile localGroovy()
+
+    testCompile 'junit:junit:4.12'
 }
 
-version = "0.1.1"
+test {
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+}
+
+version = "0.1.2-SNAPSHOT"
 group = "info.adavis"
 
 pluginBundle {
     website = 'https://github.com/adavis/quality-checks'
-    vcsUrl = 'https://github.com/adavis/quality-checks'
+    vcsUrl = 'https://github.com/adavis/quality-checks.git'
     description = 'Simple Gradle Plugin for including Checkstyle, FindBugs, and PMD in your project.'
     tags = ['Checkstyle', 'FindBugs', 'PMD']
 
