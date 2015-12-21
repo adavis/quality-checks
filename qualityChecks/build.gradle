@@ -11,7 +11,6 @@ buildscript {
 
 apply plugin: 'com.gradle.plugin-publish'
 apply plugin: 'groovy'
-apply plugin: 'maven'
 
 repositories {
     jcenter()

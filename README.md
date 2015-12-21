@@ -15,7 +15,7 @@ buildscript {
         maven { url 'https://plugins.gradle.org/m2/' }
     }
     dependencies {
-        classpath 'gradle.plugin.info.adavis:qualityChecks:0.1.1'
+        classpath 'gradle.plugin.info.adavis:qualityChecks:0.1.+'
     }
 }
 

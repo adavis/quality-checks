@@ -24,12 +24,13 @@ class WriteConfigFileTask extends DefaultTask {
         }
     }
 
+    @SuppressWarnings("GroovyAssignabilityCheck")
     @TaskAction
     def writeConfigFile() {
         description 'Write config file for quality checks task'
 
         if (configFile != null) {
-            println "copying the file contents from $fileName"
+            project.logger.info "copying the file contents from $fileName"
             copyConfigFile(fileName, configFile)
         }
     }

@@ -17,6 +17,10 @@ class QualityChecksPlugin implements Plugin<Project> {
     public static final String PMD_FILE_NAME = 'pmd-ruleset.xml'
     public static final String CHECKSTYLE_FILE_NAME = 'checkstyle.xml'
     public static final String FINDBUGS_FILE_NAME = 'findbugs-exclude.xml'
+    public static final String WRITE_PMD_CONFIG_FILE_TASK = 'writePmdConfigFile'
+    public static final String WRITE_CHECK_STYLE_CONFIG_FILE_TASK = 'writeCheckStyleConfigFile'
+    public static final String WRITE_FIND_BUGS_EXCLUSION_FILE_TASK = 'writeFindBugsExclusionFile'
+    public static final String VERIFICATION_GROUP = 'verification'
 
     Project project
     File pmdConfigFile
@@ -38,26 +42,35 @@ class QualityChecksPlugin implements Plugin<Project> {
         checkStyleConfigFile = createConfigFile(CHECKSTYLE_FILE_NAME)
         findBugsExclusionFile = createConfigFile(FINDBUGS_FILE_NAME)
 
-        def writePmdConfigFile = project.tasks.create('writePmdConfigFile', WriteConfigFileTask)
-        writePmdConfigFile.configFile = pmdConfigFile
-        writePmdConfigFile.fileName = PMD_FILE_NAME
+        project.task(WRITE_PMD_CONFIG_FILE_TASK, type: WriteConfigFileTask) {
+            group VERIFICATION_GROUP
 
-        def writeCheckstyleConfigFile = project.tasks.create('writeCheckStyleConfigFile', WriteConfigFileTask)
-        writeCheckstyleConfigFile.configFile = checkStyleConfigFile
-        writeCheckstyleConfigFile.fileName = CHECKSTYLE_FILE_NAME
+            configFile = pmdConfigFile
+            fileName = PMD_FILE_NAME
+        }
 
-        def writeFindBugsExclusionFile = project.tasks.create('writeFindBugsExclusionFile', WriteConfigFileTask)
-        writeFindBugsExclusionFile.configFile = findBugsExclusionFile
-        writeFindBugsExclusionFile.fileName = FINDBUGS_FILE_NAME
+        project.task(WRITE_CHECK_STYLE_CONFIG_FILE_TASK, type: WriteConfigFileTask) {
+            group VERIFICATION_GROUP
+
+            configFile = checkStyleConfigFile
+            fileName = CHECKSTYLE_FILE_NAME
+        }
+
+        project.task(WRITE_FIND_BUGS_EXCLUSION_FILE_TASK, type: WriteConfigFileTask) {
+            group VERIFICATION_GROUP
+
+            configFile = findBugsExclusionFile
+            fileName = FINDBUGS_FILE_NAME
+        }
 
         project.afterEvaluate {
 
             project.plugins.withType(PmdPlugin) {
                 project.tasks.create('pmd', Pmd) {
-                    dependsOn(writePmdConfigFile)
+                    dependsOn(WRITE_PMD_CONFIG_FILE_TASK)
 
                     description 'Run PMD'
-                    group 'verification'
+                    group VERIFICATION_GROUP
 
                     ruleSetFiles = project.files(project?.qualityChecks?.pmdConfigFile)
                     ruleSets = []
@@ -77,10 +90,10 @@ class QualityChecksPlugin implements Plugin<Project> {
 
             project.plugins.withType(FindBugsPlugin) {
                 project.tasks.create('findbugs', FindBugs) {
-                    dependsOn(writeFindBugsExclusionFile)
+                    dependsOn(WRITE_FIND_BUGS_EXCLUSION_FILE_TASK)
 
                     description 'Run FindBugs'
-                    group 'verification'
+                    group VERIFICATION_GROUP
 
                     classes = project.files("$project.buildDir/intermediates/classes")
                     source 'src'
@@ -100,10 +113,10 @@ class QualityChecksPlugin implements Plugin<Project> {
 
             project.plugins.withType(CheckstylePlugin) {
                 project.tasks.create('checkstyle', Checkstyle) {
-                    dependsOn(writeCheckstyleConfigFile)
+                    dependsOn(WRITE_CHECK_STYLE_CONFIG_FILE_TASK)
 
                     description 'Run Checkstyle'
-                    group 'verification'
+                    group VERIFICATION_GROUP
 
                     configFile project.file(project?.qualityChecks?.checkstyleConfigFile)
                     source 'src'
