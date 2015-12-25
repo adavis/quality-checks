@@ -1,5 +1,6 @@
-package info.adavis.qualitychecks
+package info.adavis.qualitychecks.tasks
 
+import info.adavis.qualitychecks.QualityChecksPlugin
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.Optional
@@ -8,6 +9,7 @@ import org.gradle.api.tasks.TaskAction
 /**
  * @author Annyce Davis on 12/20/15.
  */
+@SuppressWarnings("GroovyAssignabilityCheck")
 class WriteConfigFileTask extends DefaultTask {
 
     @Input
@@ -19,12 +21,14 @@ class WriteConfigFileTask extends DefaultTask {
     String fileName
 
     WriteConfigFileTask() {
+        group QualityChecksPlugin.VERIFICATION_GROUP
+
         onlyIf {
             configFile != null
         }
     }
 
-    @SuppressWarnings("GroovyAssignabilityCheck")
+    @SuppressWarnings("GroovyUnusedDeclaration")
     @TaskAction
     def writeConfigFile() {
         description 'Write config file for quality checks task'
