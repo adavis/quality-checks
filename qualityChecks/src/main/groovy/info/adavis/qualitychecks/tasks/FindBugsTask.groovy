@@ -9,6 +9,10 @@ import org.gradle.api.plugins.quality.FindBugsPlugin
  */
 class FindBugsTask extends FindBugs {
 
+    File getFindBugsExclusionFile() {
+        project.file(project?.qualityChecks?.findBugsExclusionFile)
+    }
+
     @SuppressWarnings("GroovyAssignabilityCheck")
     FindBugsTask() {
         project.plugins.apply FindBugsPlugin
@@ -23,7 +27,7 @@ class FindBugsTask extends FindBugs {
         classpath = project.files()
 
         effort 'max'
-        excludeFilter project.file(project?.qualityChecks?.findBugsExclusionFile)
+        excludeFilter getFindBugsExclusionFile()
 
         reports {
             xml.enabled = true

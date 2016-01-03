@@ -38,11 +38,9 @@ class QualityChecksPlugin implements Plugin<Project> {
     }
 
     private void createQualityChecksTasks() {
-        project.afterEvaluate {
-            project.task('pmd', type: PmdTask)
-            project.task('findbugs', type: FindBugsTask)
-            project.task('checkstyle', type: CheckstyleTask)
-        }
+        project.task('pmd', type: PmdTask)
+        project.task('findbugs', type: FindBugsTask)
+        project.task('checkstyle', type: CheckstyleTask)
     }
 
     private void createConfigFilesIfNeeded() {
