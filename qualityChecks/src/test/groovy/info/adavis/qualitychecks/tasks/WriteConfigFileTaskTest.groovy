@@ -1,9 +1,13 @@
 package info.adavis.qualitychecks.tasks
 
+import info.adavis.qualitychecks.QualityChecksPlugin
 import org.gradle.testfixtures.ProjectBuilder
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
+import org.junit.rules.TemporaryFolder
 
+import static org.junit.Assert.assertEquals
 import static org.junit.Assert.assertTrue
 import static org.junit.Assert.assertNull
 
@@ -13,12 +17,19 @@ import static org.junit.Assert.assertNull
 @SuppressWarnings("GroovyAssignabilityCheck")
 class WriteConfigFileTaskTest {
 
+    @Rule
+    public TemporaryFolder temporaryFolder = new TemporaryFolder()
+
+    def projectDir
     def project
     def task
 
     @Before
     void setUp() {
-        project = ProjectBuilder.builder().build()
+        projectDir = temporaryFolder.root
+        projectDir.mkdirs()
+
+        project = ProjectBuilder.builder().withProjectDir(projectDir).build()
         task = project.tasks.create('writeConfigFile', WriteConfigFileTask)
     }
 
@@ -43,4 +54,21 @@ class WriteConfigFileTaskTest {
 
         assertNull(task.getConfigFile())
     }
+
+    @Test
+    void shouldWriteFileIfFileExists() {
+        def task = project.task('testWriteConfigFile', type: WriteConfigFileTask) {
+            configFile = temporaryFolder.newFile('pmd-ruleset.xml')
+            fileName = QualityChecksPlugin.PMD_FILE_NAME
+        }
+
+        task.writeConfigFile()
+
+        def file = new File('pmd-ruleset.xml', projectDir)
+
+        assertTrue(file.exists())
+        assertEquals(QualityChecksPlugin.PMD_FILE_NAME, task.configFile.name)
+        assertTrue(file.text.contains('<description>Custom ruleset for Android application</description>'))
+    }
+
 }
