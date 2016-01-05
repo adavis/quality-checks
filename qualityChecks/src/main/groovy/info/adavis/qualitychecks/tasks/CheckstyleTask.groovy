@@ -9,6 +9,11 @@ import org.gradle.api.plugins.quality.CheckstylePlugin
  */
 class CheckstyleTask extends Checkstyle {
 
+    @SuppressWarnings("GrUnresolvedAccess")
+    File getCheckstyleConfigFile() {
+        project.file(project?.qualityChecks?.checkstyleConfigFile)
+    }
+
     @SuppressWarnings("GroovyAssignabilityCheck")
     CheckstyleTask() {
         project.plugins.apply CheckstylePlugin
@@ -18,7 +23,7 @@ class CheckstyleTask extends Checkstyle {
         description 'Run Checkstyle'
         group QualityChecksPlugin.VERIFICATION_GROUP
 
-        configFile project.file(project?.qualityChecks?.checkstyleConfigFile)
+        configFile getCheckstyleConfigFile()
         source 'src'
         include '**/*.java'
         exclude '**/gen/**'
