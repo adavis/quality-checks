@@ -30,6 +30,8 @@ You can optionally define the location of the Checkstyle, FindBugs and PMD confi
 ```gradle
 qualityChecks {
     pmdConfigFile = '<some other location>/pmd-ruleset.xml'
+    checkstyleConfigFile = '<some other location>/checkstyle.xml'
+    findBugsExclusionFile = '<some other location>/findbugs-exclude.xml'
 }
 ```
 
