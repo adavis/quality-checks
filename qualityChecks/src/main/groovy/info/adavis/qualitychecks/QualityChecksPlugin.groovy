@@ -6,6 +6,8 @@ import info.adavis.qualitychecks.tasks.PmdTask
 import info.adavis.qualitychecks.tasks.WriteConfigFileTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.logging.Logger
+import org.gradle.api.logging.Logging
 
 /**
  * @author adavis on 12/15/15.
@@ -20,6 +22,8 @@ class QualityChecksPlugin implements Plugin<Project> {
     public static final String WRITE_CHECK_STYLE_CONFIG_FILE_TASK = 'writeCheckStyleConfigFile'
     public static final String WRITE_FIND_BUGS_EXCLUSION_FILE_TASK = 'writeFindBugsExclusionFile'
     public static final String VERIFICATION_GROUP = 'verification'
+
+    final Logger log = Logging.getLogger QualityChecksPlugin
 
     Project project
     File pmdConfigFile
@@ -69,6 +73,7 @@ class QualityChecksPlugin implements Plugin<Project> {
     File createConfigFile(String fileName) {
         File qualityChecksDir = new File(project.buildFile.parentFile, 'quality-checks')
         if (!qualityChecksDir.exists()) {
+            log.info 'Creating the quality-checks folder.'
             qualityChecksDir.mkdirs()
         }
 

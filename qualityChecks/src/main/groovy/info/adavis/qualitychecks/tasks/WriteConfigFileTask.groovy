@@ -2,6 +2,8 @@ package info.adavis.qualitychecks.tasks
 
 import info.adavis.qualitychecks.QualityChecksPlugin
 import org.gradle.api.DefaultTask
+import org.gradle.api.logging.Logger
+import org.gradle.api.logging.Logging
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.Optional
 import org.gradle.api.tasks.TaskAction
@@ -11,6 +13,8 @@ import org.gradle.api.tasks.TaskAction
  */
 @SuppressWarnings("GroovyAssignabilityCheck")
 class WriteConfigFileTask extends DefaultTask {
+
+    final Logger log = Logging.getLogger WriteConfigFileTask
 
     @Input
     @Optional
@@ -34,7 +38,7 @@ class WriteConfigFileTask extends DefaultTask {
         description 'Write config file for quality checks task'
 
         if (configFile != null) {
-            project.logger.info "copying the file contents from $fileName"
+            log.info "Copying the file contents from $fileName"
             copyConfigFile(fileName, configFile)
         }
     }
