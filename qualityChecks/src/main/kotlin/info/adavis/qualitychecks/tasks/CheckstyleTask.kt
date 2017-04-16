@@ -12,8 +12,10 @@ open class CheckstyleTask : Checkstyle()
     init
     {
         project.plugins.apply(CheckstylePlugin::class.java)
+
         description = "Run Checkstyle"
         group = VERIFICATION_GROUP
+
         configFile = getCheckstyleConfigFile()
         classpath = project.files()
         ignoreFailures = false
@@ -24,7 +26,7 @@ open class CheckstyleTask : Checkstyle()
 
     private fun getCheckstyleConfigFile() : File
     {
-        val extension = project?.extensions?.findByName(PLUGIN_EXTENSION_NAME) as QualityChecksExtension?
+        val extension = project?.extensions?.findByType(QualityChecksExtension::class.java)
         return project.file(extension?.checkstyleConfigFile)
     }
 

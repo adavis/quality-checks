@@ -15,8 +15,10 @@ open class PmdTask : Pmd()
     init
     {
         project.plugins.apply(PmdPlugin::class.java)
+
         description = "Run Pmd"
         group = VERIFICATION_GROUP
+
         ruleSetFiles = getPmdConfigFiles()
         ruleSets = emptyList()
         ignoreFailures = true
@@ -31,7 +33,7 @@ open class PmdTask : Pmd()
 
     private fun getPmdConfigFiles() : FileCollection
     {
-        val extension = project?.extensions?.findByName(PLUGIN_EXTENSION_NAME) as QualityChecksExtension?
+        val extension = project?.extensions?.findByType(QualityChecksExtension::class.java)
         return project.files(extension?.pmdConfigFile)
     }
 

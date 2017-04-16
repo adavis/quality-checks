@@ -33,8 +33,7 @@ open class WriteConfigFileTask : DefaultTask()
     {
         description = "Write config file for quality checks task"
 
-        if (configFile != null)
-        {
+        configFile?.let {
             logger.info("Copying the file contents from $fileName")
             copyConfigFile(fileName, configFile)
         }

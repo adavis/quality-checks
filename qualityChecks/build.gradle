@@ -12,7 +12,6 @@ buildscript {
     }
 }
 
-apply plugin: 'groovy'
 apply plugin: 'kotlin'
 apply plugin: 'com.gradle.plugin-publish'
 
@@ -24,7 +23,6 @@ dependencies {
     compile gradleApi()
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
-    testCompile localGroovy()
     testCompile 'junit:junit:4.12'
 }
 

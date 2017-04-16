@@ -15,8 +15,10 @@ open class FindBugsTask : FindBugs()
     init
     {
         project.plugins.apply(FindBugsPlugin::class.java)
+
         description = "Run FindBugs"
         group = VERIFICATION_GROUP
+
         classes = project.files("$project.buildDir/intermediates/classes")
         classpath = project.files()
         effort = "max"
@@ -31,7 +33,7 @@ open class FindBugsTask : FindBugs()
 
     private fun getFindBugsExclusionFile() : File
     {
-        val extension = project?.extensions?.findByName(PLUGIN_EXTENSION_NAME) as QualityChecksExtension?
+        val extension = project?.extensions?.findByType(QualityChecksExtension::class.java)
         return project.file(extension?.findBugsExclusionFile)
     }
 

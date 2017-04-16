@@ -57,29 +57,30 @@ class QualityChecksPlugin : Plugin<Project>
 
     private fun createConfigFileTasks()
     {
-        with(project?.tasks!!)
-        {
-            var task = create(WRITE_PMD_CONFIG_FILE_TASK, WriteConfigFileTask::class.java)
-            task.configFile = pmdConfigFile
-            task.fileName = PMD_FILE_NAME
+        project?.tasks?.let {
+            it.create(WRITE_PMD_CONFIG_FILE_TASK, WriteConfigFileTask::class.java).apply {
+                configFile = pmdConfigFile
+                fileName = PMD_FILE_NAME
+            }
 
-            task = create(WRITE_CHECK_STYLE_CONFIG_FILE_TASK, WriteConfigFileTask::class.java)
-            task.configFile = checkStyleConfigFile
-            task.fileName = CHECKSTYLE_FILE_NAME
+            it.create(WRITE_CHECK_STYLE_CONFIG_FILE_TASK, WriteConfigFileTask::class.java).apply {
+                configFile = checkStyleConfigFile
+                fileName = CHECKSTYLE_FILE_NAME
+            }
 
-            task = create(WRITE_FIND_BUGS_EXCLUSION_FILE_TASK, WriteConfigFileTask::class.java)
-            task.configFile = findBugsExclusionFile
-            task.fileName = FINDBUGS_FILE_NAME
+            it.create(WRITE_FIND_BUGS_EXCLUSION_FILE_TASK, WriteConfigFileTask::class.java).apply {
+                configFile = findBugsExclusionFile
+                fileName = FINDBUGS_FILE_NAME
+            }
         }
     }
 
     private fun createQualityChecksTasks()
     {
-        with(project?.tasks!!)
-        {
-            create("pmd", PmdTask::class.java)
-            create("findbugs", FindBugsTask::class.java)
-            create("checkstyle", CheckstyleTask::class.java)
+        project?.tasks?.let {
+            it.create("pmd", PmdTask::class.java)
+            it.create("findbugs", FindBugsTask::class.java)
+            it.create("checkstyle", CheckstyleTask::class.java)
         }
     }
 
