@@ -7,10 +7,12 @@ import org.junit.Test
 
 import static org.junit.Assert.*
 
-class FindBugsTaskTest {
+class FindBugsTaskTest
+{
 
     @Test
-    void createFindBugsTask() {
+    void createFindBugsTask()
+    {
         def project = ProjectBuilder.builder().build()
         project.extensions.create('qualityChecks', QualityChecksExtension)
         project.qualityChecks.findBugsExclusionFile = File.createTempFile('temp', '.xml').path

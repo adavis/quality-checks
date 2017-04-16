@@ -4,9 +4,10 @@ import info.adavis.qualitychecks.QualityChecksExtension
 import org.gradle.testfixtures.ProjectBuilder
 import spock.lang.Specification
 
-class CheckstyleTaskSpec extends Specification {
-
-    def createCheckstyleTask() {
+class CheckstyleTaskSpec extends Specification
+{
+    def createCheckstyleTask()
+    {
         given: "we have a project"
         def project = ProjectBuilder.builder().build()
 

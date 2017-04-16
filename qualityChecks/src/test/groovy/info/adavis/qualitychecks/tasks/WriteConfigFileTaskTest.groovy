@@ -7,13 +7,8 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
 
-import static org.junit.Assert.assertEquals
-import static org.junit.Assert.assertTrue
-import static org.junit.Assert.assertNull
+import static org.junit.Assert.*
 
-/**
- * @author Annyce Davis on 12/20/15.
- */
 @SuppressWarnings("GroovyAssignabilityCheck")
 class WriteConfigFileTaskTest {
 
@@ -25,7 +20,8 @@ class WriteConfigFileTaskTest {
     def task
 
     @Before
-    void setUp() {
+    void setUp()
+    {
         projectDir = temporaryFolder.root
         projectDir.mkdirs()
 
@@ -34,12 +30,14 @@ class WriteConfigFileTaskTest {
     }
 
     @Test
-    void shouldBeAbleToCreateTask() {
+    void shouldBeAbleToCreateTask()
+    {
         assertTrue(task instanceof WriteConfigFileTask)
     }
 
     @Test
-    void shouldNotWriteFile() {
+    void shouldNotWriteFile()
+    {
         task.setConfigFile(File.createTempFile('temp', '.xml'))
         task.setFileName('pmd-ruleset.xml')
 
@@ -49,14 +47,16 @@ class WriteConfigFileTaskTest {
     }
 
     @Test
-    void shouldNotWriteFileIfNull() {
+    void shouldNotWriteFileIfNull()
+    {
         task.writeConfigFile()
 
         assertNull(task.getConfigFile())
     }
 
     @Test
-    void shouldWriteFileIfFileExists() {
+    void shouldWriteFileIfFileExists()
+    {
         def task = project.task('testWriteConfigFile', type: WriteConfigFileTask) {
             configFile = temporaryFolder.newFile('pmd-ruleset.xml')
             fileName = QualityChecksPlugin.PMD_FILE_NAME
