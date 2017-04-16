@@ -40,9 +40,10 @@ open class WriteConfigFileTask : DefaultTask()
         }
     }
 
-    fun copyConfigFile(fileName: String?, configFile: File?)
+    private fun copyConfigFile(fileName: String?, configFile: File?)
     {
-        val inputStream: InputStream = WriteConfigFileTask::class.java.classLoader.getResourceAsStream(fileName)
-        inputStream.copyTo(FileOutputStream(configFile), DEFAULT_BUFFER_SIZE)
+        ClassLoader.getSystemResourceAsStream(fileName).use { inputStream ->
+            configFile?.outputStream()?.use { inputStream.copyTo(it) }
+        }
     }
 }
