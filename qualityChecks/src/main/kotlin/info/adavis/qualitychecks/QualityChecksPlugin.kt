@@ -8,7 +8,7 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import java.io.File
 
-open class QualityChecksPlugin : Plugin<Project>
+class QualityChecksPlugin : Plugin<Project>
 {
     companion object
     {
@@ -37,13 +37,6 @@ open class QualityChecksPlugin : Plugin<Project>
         createQualityChecksTasks()
     }
 
-    private fun createQualityChecksTasks()
-    {
-        project?.tasks?.create("pmd", PmdTask::class.java)
-        project?.tasks?.create("findbugs", FindBugsTask::class.java)
-        project?.tasks?.create("checkstyle", CheckstyleTask::class.java)
-    }
-
     private fun createConfigFilesIfNeeded()
     {
         pmdConfigFile = createConfigFile(PMD_FILE_NAME)
@@ -51,22 +44,7 @@ open class QualityChecksPlugin : Plugin<Project>
         findBugsExclusionFile = createConfigFile(FINDBUGS_FILE_NAME)
     }
 
-    private fun createConfigFileTasks()
-    {
-        var task = project?.tasks?.create(WRITE_PMD_CONFIG_FILE_TASK, WriteConfigFileTask::class.java) as WriteConfigFileTask
-        task.configFile = pmdConfigFile
-        task.fileName = PMD_FILE_NAME
-
-        task = project?.tasks?.create(WRITE_CHECK_STYLE_CONFIG_FILE_TASK, WriteConfigFileTask::class.java) as WriteConfigFileTask
-        task.configFile = checkStyleConfigFile
-        task.fileName = CHECKSTYLE_FILE_NAME
-
-        task = project?.tasks?.create(WRITE_FIND_BUGS_EXCLUSION_FILE_TASK, WriteConfigFileTask::class.java) as WriteConfigFileTask
-        task.configFile = findBugsExclusionFile
-        task.fileName = FINDBUGS_FILE_NAME
-    }
-
-    fun createConfigFile(fileName: String) : File?
+    private fun createConfigFile(fileName: String) : File?
     {
         val qualityChecksDir = File(project?.buildFile?.parentFile, "quality-checks")
         if (!qualityChecksDir.exists())
@@ -75,6 +53,34 @@ open class QualityChecksPlugin : Plugin<Project>
         }
 
         return File(qualityChecksDir, fileName)
+    }
+
+    private fun createConfigFileTasks()
+    {
+        with(project?.tasks!!)
+        {
+            var task = create(WRITE_PMD_CONFIG_FILE_TASK, WriteConfigFileTask::class.java)
+            task.configFile = pmdConfigFile
+            task.fileName = PMD_FILE_NAME
+
+            task = create(WRITE_CHECK_STYLE_CONFIG_FILE_TASK, WriteConfigFileTask::class.java)
+            task.configFile = checkStyleConfigFile
+            task.fileName = CHECKSTYLE_FILE_NAME
+
+            task = create(WRITE_FIND_BUGS_EXCLUSION_FILE_TASK, WriteConfigFileTask::class.java)
+            task.configFile = findBugsExclusionFile
+            task.fileName = FINDBUGS_FILE_NAME
+        }
+    }
+
+    private fun createQualityChecksTasks()
+    {
+        with(project?.tasks!!)
+        {
+            create("pmd", PmdTask::class.java)
+            create("findbugs", FindBugsTask::class.java)
+            create("checkstyle", CheckstyleTask::class.java)
+        }
     }
 
 }
