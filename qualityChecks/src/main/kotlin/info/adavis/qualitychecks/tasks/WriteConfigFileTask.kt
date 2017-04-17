@@ -32,14 +32,16 @@ open class WriteConfigFileTask : DefaultTask() {
         description = "Write config file for quality checks task"
 
         configFile?.let {
-            logger.info("Copying the file contents from $fileName")
+            project.logger.info("Copying the file contents from $fileName")
             copyConfigFile(fileName, configFile)
         }
     }
 
     private fun copyConfigFile(fileName: String?, configFile: File?) {
-        ClassLoader.getSystemResourceAsStream(fileName).use { inputStream ->
-            configFile?.outputStream()?.use { inputStream.copyTo(it) }
+        this::class.java.classLoader.getResourceAsStream(fileName).use { inputStream ->
+            configFile?.outputStream()?.use { outputStream ->
+                inputStream.copyTo(outputStream)
+            }
         }
     }
 }
