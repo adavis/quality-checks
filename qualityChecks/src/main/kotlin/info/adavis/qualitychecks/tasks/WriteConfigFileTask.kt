@@ -9,18 +9,17 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
 
-open class WriteConfigFileTask : DefaultTask()
-{
-    @Input
-    @Optional
-    var configFile : File? = null
+open class WriteConfigFileTask : DefaultTask() {
 
     @Input
     @Optional
-    var fileName : String? = null
+    var configFile: File? = null
 
-    init
-    {
+    @Input
+    @Optional
+    var fileName: String? = null
+
+    init {
         group = QualityChecksPlugin.VERIFICATION_GROUP
 
         onlyIf {
@@ -29,8 +28,7 @@ open class WriteConfigFileTask : DefaultTask()
     }
 
     @TaskAction
-    fun writeConfigFile()
-    {
+    fun writeConfigFile() {
         description = "Write config file for quality checks task"
 
         configFile?.let {
@@ -39,8 +37,7 @@ open class WriteConfigFileTask : DefaultTask()
         }
     }
 
-    private fun copyConfigFile(fileName: String?, configFile: File?)
-    {
+    private fun copyConfigFile(fileName: String?, configFile: File?) {
         ClassLoader.getSystemResourceAsStream(fileName).use { inputStream ->
             configFile?.outputStream()?.use { inputStream.copyTo(it) }
         }

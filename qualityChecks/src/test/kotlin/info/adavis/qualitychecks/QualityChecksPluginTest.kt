@@ -4,15 +4,13 @@ import org.gradle.testfixtures.ProjectBuilder
 import org.junit.Assert.assertNotNull
 import org.junit.Test
 
-class QualityChecksPluginTest
-{
+class QualityChecksPluginTest {
+
     @Test
-    fun `plugin should add tasks when applied`()
-    {
+    fun `plugin should add tasks when applied`() {
         val project = ProjectBuilder.builder().build()
 
-        with(project)
-        {
+        with(project) {
             pluginManager.apply(QualityChecksPlugin::class.java)
 
             assertNotNull(tasks.findByName(QualityChecksPlugin.WRITE_CHECK_STYLE_CONFIG_FILE_TASK))

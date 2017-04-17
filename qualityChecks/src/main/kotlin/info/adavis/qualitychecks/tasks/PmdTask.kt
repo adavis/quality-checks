@@ -8,12 +8,11 @@ import org.gradle.api.file.FileCollection
 import org.gradle.api.plugins.quality.Pmd
 import org.gradle.api.plugins.quality.PmdPlugin
 
-open class PmdTask : Pmd()
-{
+open class PmdTask : Pmd() {
+
     override fun getDependsOn(): MutableSet<Any> = mutableSetOf(QualityChecksPlugin.WRITE_PMD_CONFIG_FILE_TASK)
 
-    init
-    {
+    init {
         project.plugins.apply(PmdPlugin::class.java)
 
         description = "Run Pmd"
@@ -31,8 +30,7 @@ open class PmdTask : Pmd()
         source.add("src")
     }
 
-    private fun getPmdConfigFiles() : FileCollection
-    {
+    private fun getPmdConfigFiles(): FileCollection {
         val extension = project?.extensions?.findByType(QualityChecksExtension::class.java)
         return project.files(extension?.pmdConfigFile)
     }

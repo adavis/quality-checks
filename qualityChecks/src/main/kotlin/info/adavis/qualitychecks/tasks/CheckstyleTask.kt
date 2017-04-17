@@ -7,10 +7,9 @@ import org.gradle.api.plugins.quality.Checkstyle
 import org.gradle.api.plugins.quality.CheckstylePlugin
 import java.io.File
 
-open class CheckstyleTask : Checkstyle()
-{
-    init
-    {
+open class CheckstyleTask : Checkstyle() {
+
+    init {
         project.plugins.apply(CheckstylePlugin::class.java)
 
         description = "Run Checkstyle"
@@ -24,8 +23,7 @@ open class CheckstyleTask : Checkstyle()
         source.add("src")
     }
 
-    private fun getCheckstyleConfigFile() : File
-    {
+    private fun getCheckstyleConfigFile(): File {
         val extension = project?.extensions?.findByType(QualityChecksExtension::class.java)
         return project.file(extension?.checkstyleConfigFile)
     }

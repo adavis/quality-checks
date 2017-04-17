@@ -7,15 +7,13 @@ import org.junit.Assert.*
 import org.junit.Test
 import java.io.File
 
-class CheckstyleTaskTest
-{
+class CheckstyleTaskTest {
+
     @Test
-    fun `should create checkstyle task`()
-    {
+    fun `should create checkstyle task`() {
         val project = ProjectBuilder.builder().build()
 
-        with(project)
-        {
+        with(project) {
             extensions.create("qualityChecks", QualityChecksExtension::class.java)
             extensions.findByType(QualityChecksExtension::class.java).checkstyleConfigFile = File.createTempFile("temp", ".xml").path
 

@@ -8,15 +8,13 @@ import org.junit.Test
 
 import java.io.File
 
-class PmdTaskTest
-{
+class PmdTaskTest {
+
     @Test
-    fun `should create pmd task`()
-    {
+    fun `should create pmd task`() {
         val project = ProjectBuilder.builder().build()
 
-        with(project)
-        {
+        with(project) {
             extensions.create("qualityChecks", QualityChecksExtension::class.java)
             extensions.findByType(QualityChecksExtension::class.java).pmdConfigFile = File.createTempFile("temp", ".xml").path
 

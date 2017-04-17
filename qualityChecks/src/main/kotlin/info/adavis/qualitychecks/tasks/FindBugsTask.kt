@@ -8,12 +8,11 @@ import org.gradle.api.plugins.quality.FindBugs
 import org.gradle.api.plugins.quality.FindBugsPlugin
 import java.io.File
 
-open class FindBugsTask : FindBugs()
-{
+open class FindBugsTask : FindBugs() {
+
     override fun getDependsOn(): MutableSet<Any> = mutableSetOf(QualityChecksPlugin.WRITE_FIND_BUGS_EXCLUSION_FILE_TASK)
 
-    init
-    {
+    init {
         project.plugins.apply(FindBugsPlugin::class.java)
 
         description = "Run FindBugs"
@@ -31,8 +30,7 @@ open class FindBugsTask : FindBugs()
         source.add("src")
     }
 
-    private fun getFindBugsExclusionFile() : File
-    {
+    private fun getFindBugsExclusionFile(): File {
         val extension = project?.extensions?.findByType(QualityChecksExtension::class.java)
         return project.file(extension?.findBugsExclusionFile)
     }

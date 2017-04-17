@@ -10,8 +10,8 @@ import org.junit.Test
 import org.junit.rules.TemporaryFolder
 import java.io.File
 
-class WriteConfigFileTaskTest
-{
+class WriteConfigFileTaskTest {
+
     @Rule @JvmField
     val temporaryFolder = TemporaryFolder()
 
@@ -20,8 +20,7 @@ class WriteConfigFileTaskTest
     lateinit var task: WriteConfigFileTask
 
     @Before
-    fun setUp()
-    {
+    fun setUp() {
         projectDir = temporaryFolder.root
         projectDir.mkdirs()
 
@@ -30,16 +29,13 @@ class WriteConfigFileTaskTest
     }
 
     @Test
-    fun `should be able to create task`()
-    {
+    fun `should be able to create task`() {
         assertTrue(task is WriteConfigFileTask)
     }
 
     @Test
-    fun `should not write file when already provided`()
-    {
-        with(task)
-        {
+    fun `should not write file when already provided`() {
+        with(task) {
             configFile = File.createTempFile("temp", ".xml")
             fileName = "pmd-ruleset.xml"
 
@@ -50,10 +46,8 @@ class WriteConfigFileTaskTest
     }
 
     @Test
-    fun `should not write file if null`()
-    {
-        with(task)
-        {
+    fun `should not write file if null`() {
+        with(task) {
             writeConfigFile()
 
             assertNull(configFile)
@@ -61,10 +55,8 @@ class WriteConfigFileTaskTest
     }
 
     @Test
-    fun `should write default file contents if file exists`()
-    {
-        with(task)
-        {
+    fun `should write default file contents if file exists`() {
+        with(task) {
             configFile = temporaryFolder.newFile("pmd-ruleset.xml")
             fileName = QualityChecksPlugin.PMD_FILE_NAME
 

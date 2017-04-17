@@ -7,15 +7,13 @@ import org.junit.Assert.*
 import org.junit.Test
 import java.io.File
 
-class FindBugsTaskTest
-{
+class FindBugsTaskTest {
+
     @Test
-    fun `should create findBugs task`()
-    {
+    fun `should create findBugs task`() {
         val project = ProjectBuilder.builder().build()
 
-        with(project)
-        {
+        with(project) {
             extensions.create("qualityChecks", QualityChecksExtension::class.java)
             extensions.findByType(QualityChecksExtension::class.java).findBugsExclusionFile = File.createTempFile("temp", ".xml").path
 
