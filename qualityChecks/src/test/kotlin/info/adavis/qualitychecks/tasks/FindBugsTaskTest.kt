@@ -10,7 +10,7 @@ import java.io.File
 class FindBugsTaskTest
 {
     @Test
-    fun createFindBugsTask()
+    fun `should create findBugs task`()
     {
         val project = ProjectBuilder.builder().build()
 

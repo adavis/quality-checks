@@ -7,7 +7,7 @@ import org.junit.Test
 class QualityChecksPluginTest
 {
     @Test
-    fun pluginShouldBeApplied()
+    fun `plugin should add tasks when applied`()
     {
         val project = ProjectBuilder.builder().build()
 

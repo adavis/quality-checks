@@ -10,7 +10,7 @@ import java.io.File
 class CheckstyleTaskTest
 {
     @Test
-    fun createCheckstyleTask()
+    fun `should create checkstyle task`()
     {
         val project = ProjectBuilder.builder().build()
 

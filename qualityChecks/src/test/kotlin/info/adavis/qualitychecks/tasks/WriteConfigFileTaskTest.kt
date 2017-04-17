@@ -30,13 +30,13 @@ class WriteConfigFileTaskTest
     }
 
     @Test
-    fun shouldBeAbleToCreateTask()
+    fun `should be able to create task`()
     {
         assertTrue(task is WriteConfigFileTask)
     }
 
     @Test
-    fun shouldNotWriteFile()
+    fun `should not write file when already provided`()
     {
         with(task)
         {
@@ -50,7 +50,7 @@ class WriteConfigFileTaskTest
     }
 
     @Test
-    fun shouldNotWriteFileIfNull()
+    fun `should not write file if null`()
     {
         with(task)
         {
@@ -61,7 +61,7 @@ class WriteConfigFileTaskTest
     }
 
     @Test
-    fun shouldWriteFileIfFileExists()
+    fun `should write default file contents if file exists`()
     {
         with(task)
         {

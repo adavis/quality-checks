@@ -11,7 +11,7 @@ import java.io.File
 class PmdTaskTest
 {
     @Test
-    fun createPmdTask()
+    fun `should create pmd task`()
     {
         val project = ProjectBuilder.builder().build()
 
