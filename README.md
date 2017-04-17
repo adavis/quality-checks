@@ -1,7 +1,7 @@
-Quality Checks Plugin
+Android Quality Checks Plugin
 ======
 
-This plugin allows you to include Checkstyle, FindBugs, and PMD static code analysis tools to your Gradle build. 
+This plugin allows you to include Checkstyle, FindBugs, and PMD static code analysis tools to your Android Gradle build. 
 It copies basic xml configuration files to a new directory `quality-checks` which is in the same directory of the `build.gradle` file.
 
 Installation
@@ -15,7 +15,7 @@ buildscript {
         maven { url 'https://plugins.gradle.org/m2/' }
     }
     dependencies {
-        classpath 'gradle.plugin.info.adavis:qualityChecks:0.1.+'
+        classpath 'gradle.plugin.info.adavis:qualityChecks:0.2.+'
     }
 }
 
