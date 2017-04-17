@@ -6,6 +6,7 @@ import info.adavis.qualitychecks.tasks.PmdTask
 import info.adavis.qualitychecks.tasks.WriteConfigFileTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.logging.LogLevel
 import java.io.File
 
 class QualityChecksPlugin : Plugin<Project> {
@@ -47,10 +48,12 @@ class QualityChecksPlugin : Plugin<Project> {
             qualityChecksDir.mkdirs()
         }
 
-        return File(qualityChecksDir, fileName)
+        return File(qualityChecksDir, fileName).apply { createNewFile() }
     }
 
     private fun createConfigFileTasks() {
+        project?.logger?.log(LogLevel.INFO, "creating the write config files tasks")
+
         project?.tasks?.let {
             it.create(WRITE_PMD_CONFIG_FILE_TASK, WriteConfigFileTask::class.java).apply {
                 configFile = pmdConfigFile
@@ -70,6 +73,8 @@ class QualityChecksPlugin : Plugin<Project> {
     }
 
     private fun createQualityChecksTasks() {
+        project?.logger?.log(LogLevel.INFO, "creating the quality checks tasks")
+
         project?.tasks?.let {
             it.create("pmd", PmdTask::class.java)
             it.create("findbugs", FindBugsTask::class.java)
