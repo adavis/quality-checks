@@ -1,6 +1,7 @@
 package info.adavis.qualitychecks.tasks
 
 import info.adavis.qualitychecks.QualityChecksExtension
+import info.adavis.qualitychecks.QualityChecksPlugin
 import info.adavis.qualitychecks.QualityChecksPlugin.Companion.PLUGIN_EXTENSION_NAME
 import info.adavis.qualitychecks.QualityChecksPlugin.Companion.VERIFICATION_GROUP
 import org.gradle.api.plugins.quality.Checkstyle
@@ -8,6 +9,8 @@ import org.gradle.api.plugins.quality.CheckstylePlugin
 import java.io.File
 
 open class CheckstyleTask : Checkstyle() {
+
+    override fun getDependsOn(): MutableSet<Any> = mutableSetOf(QualityChecksPlugin.WRITE_CHECK_STYLE_CONFIG_FILE_TASK)
 
     init {
         project.plugins.apply(CheckstylePlugin::class.java)
