@@ -1,8 +1,5 @@
 package info.adavis.qualitychecks
 
-import info.adavis.qualitychecks.QualityChecksPlugin.Companion.CHECKSTYLE_FILE_NAME
-import info.adavis.qualitychecks.QualityChecksPlugin.Companion.FINDBUGS_FILE_NAME
-import info.adavis.qualitychecks.QualityChecksPlugin.Companion.PMD_FILE_NAME
 import info.adavis.qualitychecks.QualityChecksPlugin.Companion.WRITE_CHECK_STYLE_CONFIG_FILE_TASK
 import info.adavis.qualitychecks.QualityChecksPlugin.Companion.WRITE_FIND_BUGS_EXCLUSION_FILE_TASK
 import info.adavis.qualitychecks.QualityChecksPlugin.Companion.WRITE_PMD_CONFIG_FILE_TASK
@@ -44,14 +41,11 @@ class QualityChecksPluginTest {
     }
 
     @Test
-    fun `plugin should create config files when applied`() {
+    fun `plugin should create config files directory when applied`() {
         with(project) {
             pluginManager.apply(QualityChecksPlugin::class.java)
 
-            val qualityChecksDir = File(projectDir, "quality-checks")
-            assertTrue(File(qualityChecksDir, PMD_FILE_NAME).exists())
-            assertTrue(File(qualityChecksDir, FINDBUGS_FILE_NAME).exists())
-            assertTrue(File(qualityChecksDir, CHECKSTYLE_FILE_NAME).exists())
+            assertTrue(File(projectDir, "quality-checks").exists())
         }
     }
 

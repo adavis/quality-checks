@@ -23,50 +23,36 @@ class QualityChecksPlugin : Plugin<Project> {
     }
 
     var project: Project? = null
-    var pmdConfigFile: File? = null
-    var checkStyleConfigFile: File? = null
-    var findBugsExclusionFile: File? = null
 
     override fun apply(target: Project?) {
         project = target
         project?.extensions?.create(PLUGIN_EXTENSION_NAME, QualityChecksExtension::class.java)
 
-        createConfigFilesIfNeeded()
         createConfigFileTasks()
         createQualityChecksTasks()
-    }
-
-    private fun createConfigFilesIfNeeded() {
-        pmdConfigFile = createConfigFile(PMD_FILE_NAME)
-        checkStyleConfigFile = createConfigFile(CHECKSTYLE_FILE_NAME)
-        findBugsExclusionFile = createConfigFile(FINDBUGS_FILE_NAME)
-    }
-
-    private fun createConfigFile(fileName: String): File? {
-        val qualityChecksDir = File(project?.buildFile?.parentFile, "quality-checks")
-        if (!qualityChecksDir.exists()) {
-            qualityChecksDir.mkdirs()
-        }
-
-        return File(qualityChecksDir, fileName).apply { createNewFile() }
     }
 
     private fun createConfigFileTasks() {
         project?.logger?.log(LogLevel.INFO, "creating the write config files tasks")
 
+        val qualityChecksDir = File(project?.buildFile?.parentFile, "quality-checks")
+        if (!qualityChecksDir.exists()) {
+            qualityChecksDir.mkdirs()
+        }
+
         project?.tasks?.let {
             it.create(WRITE_PMD_CONFIG_FILE_TASK, WriteConfigFileTask::class.java).apply {
-                configFile = pmdConfigFile
+                configFile = File(qualityChecksDir, PMD_FILE_NAME)
                 fileName = PMD_FILE_NAME
             }
 
             it.create(WRITE_CHECK_STYLE_CONFIG_FILE_TASK, WriteConfigFileTask::class.java).apply {
-                configFile = checkStyleConfigFile
+                configFile = File(qualityChecksDir, CHECKSTYLE_FILE_NAME)
                 fileName = CHECKSTYLE_FILE_NAME
             }
 
             it.create(WRITE_FIND_BUGS_EXCLUSION_FILE_TASK, WriteConfigFileTask::class.java).apply {
-                configFile = findBugsExclusionFile
+                configFile = File(qualityChecksDir, FINDBUGS_FILE_NAME)
                 fileName = FINDBUGS_FILE_NAME
             }
         }

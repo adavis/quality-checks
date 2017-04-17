@@ -6,8 +6,6 @@ import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.Optional
 import org.gradle.api.tasks.TaskAction
 import java.io.File
-import java.io.FileOutputStream
-import java.io.InputStream
 
 open class WriteConfigFileTask : DefaultTask() {
 
@@ -21,15 +19,13 @@ open class WriteConfigFileTask : DefaultTask() {
 
     init {
         group = QualityChecksPlugin.VERIFICATION_GROUP
-
-        onlyIf {
-            configFile != null
-        }
     }
 
     @TaskAction
     fun writeConfigFile() {
         description = "Write config file for quality checks task"
+
+        configFile?.exists() ?: configFile?.createNewFile()
 
         configFile?.let {
             project.logger.info("Copying the file contents from $fileName")

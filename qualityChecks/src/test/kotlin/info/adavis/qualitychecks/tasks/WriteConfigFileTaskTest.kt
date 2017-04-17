@@ -1,6 +1,6 @@
 package info.adavis.qualitychecks.tasks
 
-import info.adavis.qualitychecks.QualityChecksPlugin
+import info.adavis.qualitychecks.QualityChecksPlugin.Companion.PMD_FILE_NAME
 import org.gradle.api.Project
 import org.gradle.testfixtures.ProjectBuilder
 import org.junit.Assert.*
@@ -58,14 +58,14 @@ class WriteConfigFileTaskTest {
     fun `should write default file contents if file exists`() {
         with(task) {
             configFile = temporaryFolder.newFile("pmd-ruleset.xml")
-            fileName = QualityChecksPlugin.PMD_FILE_NAME
+            fileName = PMD_FILE_NAME
 
             writeConfigFile()
 
             val file = File(projectDir, "pmd-ruleset.xml")
 
             assertTrue(file.exists())
-            assertEquals(QualityChecksPlugin.PMD_FILE_NAME, task.configFile?.name)
+            assertEquals(PMD_FILE_NAME, task.configFile?.name)
             assertTrue(file.readText().contains("<description>Custom ruleset for Android application</description>"))
         }
     }
