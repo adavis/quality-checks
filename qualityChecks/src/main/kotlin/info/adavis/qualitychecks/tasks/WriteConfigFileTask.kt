@@ -4,14 +4,13 @@ import info.adavis.qualitychecks.QualityChecksPlugin
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.Optional
+import org.gradle.api.tasks.OutputFile
 import org.gradle.api.tasks.TaskAction
 import java.io.File
-import java.io.FileOutputStream
-import java.io.InputStream
 
 open class WriteConfigFileTask : DefaultTask() {
 
-    @Input
+    @OutputFile
     @Optional
     var configFile: File? = null
 
@@ -37,9 +36,12 @@ open class WriteConfigFileTask : DefaultTask() {
         }
     }
 
-    private fun copyConfigFile(fileName: String?, configFile: File?) {
-        ClassLoader.getSystemResourceAsStream(fileName).use { inputStream ->
-            configFile?.outputStream()?.use { inputStream.copyTo(it) }
+    companion object {
+
+        fun copyConfigFile(fileName: String?, configFile: File?) {
+            ClassLoader.getSystemResourceAsStream(fileName).use { inputStream ->
+                configFile?.outputStream()?.use { inputStream?.copyTo(it) }
+            }
         }
     }
 }
