@@ -28,5 +28,4 @@ open class CheckstyleTask : Checkstyle() {
             val extension = project?.extensions?.findByType(QualityChecksExtension::class.java)
             return project.file(extension?.checkstyleConfigFile)
         }
-
 }

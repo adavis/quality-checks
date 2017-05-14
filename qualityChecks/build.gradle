@@ -52,7 +52,7 @@ tasks.withType(Test) {
 
 check.dependsOn functionalTest
 
-version = "0.2.0"
+version = "0.2.3"
 group = "info.adavis"
 
 gradlePlugin {
