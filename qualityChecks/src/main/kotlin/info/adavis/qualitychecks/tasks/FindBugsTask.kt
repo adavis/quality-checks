@@ -18,6 +18,7 @@ open class FindBugsTask : FindBugs() {
         classes = project.files("$project.buildDir/intermediates/classes")
         classpath = project.files()
         effort = "max"
+
         excludeFilter = findBugsExclusionFile
         ignoreFailures = true
 
