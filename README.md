@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/adavis/quality-checks.svg?branch=master)](https://travis-ci.org/adavis/quality-checks)
+
 Android Quality Checks Plugin
 ======
 
