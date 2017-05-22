@@ -1,6 +1,9 @@
+import org.gradle.api.tasks.wrapper.Wrapper
+
 buildscript {
     repositories {
         jcenter()
+        gradleScriptKotlin()
     }
     dependencies {
     }
@@ -12,6 +15,6 @@ allprojects {
     }
 }
 
-task wrapper(type: Wrapper) {
-    gradleVersion = '3.5'
+task<Wrapper>("wrapper") {
+    gradleVersion = "3.5"
 }

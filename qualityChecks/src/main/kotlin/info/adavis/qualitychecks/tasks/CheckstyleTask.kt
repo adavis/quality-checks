@@ -1,16 +1,13 @@
 package info.adavis.qualitychecks.tasks
 
 import info.adavis.qualitychecks.QualityChecksExtension
-import info.adavis.qualitychecks.QualityChecksPlugin
-import info.adavis.qualitychecks.QualityChecksPlugin.Companion.PLUGIN_EXTENSION_NAME
 import info.adavis.qualitychecks.QualityChecksPlugin.Companion.VERIFICATION_GROUP
 import org.gradle.api.plugins.quality.Checkstyle
 import org.gradle.api.plugins.quality.CheckstylePlugin
+import org.gradle.api.tasks.Input
 import java.io.File
 
 open class CheckstyleTask : Checkstyle() {
-
-    override fun getDependsOn(): MutableSet<Any> = mutableSetOf(QualityChecksPlugin.WRITE_CHECK_STYLE_CONFIG_FILE_TASK)
 
     init {
         project.plugins.apply(CheckstylePlugin::class.java)
@@ -18,7 +15,7 @@ open class CheckstyleTask : Checkstyle() {
         description = "Run Checkstyle"
         group = VERIFICATION_GROUP
 
-        configFile = getCheckstyleConfigFile()
+        configFile = checkstyleConfigFile
         classpath = project.files()
         ignoreFailures = false
         includes.add("**/*.java")
@@ -26,9 +23,9 @@ open class CheckstyleTask : Checkstyle() {
         source.add("src")
     }
 
-    private fun getCheckstyleConfigFile(): File {
-        val extension = project?.extensions?.findByType(QualityChecksExtension::class.java)
-        return project.file(extension?.checkstyleConfigFile)
-    }
-
+    val checkstyleConfigFile: File
+        @Input get() {
+            val extension = project?.extensions?.findByType(QualityChecksExtension::class.java)
+            return project.file(extension?.checkstyleConfigFile)
+        }
 }
